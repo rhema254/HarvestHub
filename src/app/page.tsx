@@ -4,6 +4,7 @@ import HeroSection from "./components/herosection";
 import CategoriesSection from "./components/category";
 import BestSellerSection from "./components/bestseller";
 import Footer from "./components/footer";
+import Testimonials from "./components/testimonials";
 
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <HeroSection />
       <CategoriesSection />
       <BestSellerSection />
+      <Testimonials />
       <Footer />
     </div>
   );
