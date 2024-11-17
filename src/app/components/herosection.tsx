@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 
 export default function HeroSection() {
     return (
-      <section className="relative overflow-hidden bg-gray-50">
+      <section className="relative h-screen overflow-hidden bg-gray-50">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 select-none">
           <span className="text-[20vw] font-bold leading-none text-gray-100">
             BEST
