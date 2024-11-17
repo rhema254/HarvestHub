@@ -6,6 +6,7 @@ import BestSellerSection from "./components/bestseller";
 import Footer from "./components/footer";
 import Testimonials from "./components/testimonials";
 import Features from "./components/features";
+import Deals from "./components/deals";
 
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <BestSellerSection />
       <Testimonials />
       <Features />
+      <Deals />
       <Footer />
     </div>
   );
