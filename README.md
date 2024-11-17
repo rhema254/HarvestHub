@@ -79,11 +79,11 @@
 ---
 
 ## Technology Stack
-- **Frontend**: [Specify the framework or technology, e.g., React, Angular, etc.]
-- **Backend**: [Specify backend technology, e.g., Node.js, Django, etc.]
-- **Database**: [Specify database, e.g., MongoDB, PostgreSQL, etc.]
-- **Hosting**: [Specify hosting service, e.g., AWS, Azure, etc.]
-- **Authentication**: [Specify method, e.g., OAuth, JWT, etc.]
+- **Frontend**: React.js, Next.js, Tailwind CSS, etc.
+- **Backend**: Django REST framework
+- **Database**: PostgreSQL
+- **Hosting**: vercel
+- **Authentication**: supabase
 
 ---
 
