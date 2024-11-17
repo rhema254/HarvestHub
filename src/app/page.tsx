@@ -3,6 +3,7 @@ import Navbar from "./components/navbar";
 import HeroSection from "./components/herosection";
 import CategoriesSection from "./components/category";
 import BestSellerSection from "./components/bestseller";
+import Footer from "./components/footer";
 
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <HeroSection />
       <CategoriesSection />
       <BestSellerSection />
+      <Footer />
     </div>
   );
 }
