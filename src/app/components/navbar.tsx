@@ -73,7 +73,7 @@ export default function Navbar() {
             <span className="sr-only">Shopping Cart</span>
           </button>
           <Link
-            href="/login"
+            href="/signin"
             className="rounded-md bg-[#4F7A56] px-4 py-2 text-sm font-medium text-white hover:bg-[#6A9572]"
           >
             Login
