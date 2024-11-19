@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import {signup } from "./action";
 
 export default function Component() {
   return (
@@ -41,6 +41,7 @@ export default function Component() {
               <input
                 id="firstName"
                 type="text"
+                name="firstName"
                 placeholder="Robert"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
               />
@@ -56,6 +57,7 @@ export default function Component() {
               <input
                 id="lastName"
                 type="text"
+                name="lastName"
                 placeholder="Fox"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
               />
@@ -71,6 +73,7 @@ export default function Component() {
               <input
                 id="email"
                 type="email"
+                name="email"
                 placeholder="robertfox@example.com"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
               />
@@ -86,27 +89,15 @@ export default function Component() {
               <input
                 id="password"
                 type="password"
+                name="password"
                 placeholder="••••••••••••••"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
               />
             </div>
 
-            <div className="flex items-center">
-              <input
-                id="terms"
-                type="checkbox"
-                className="w-4 h-4 border-gray-300 rounded text-black"
-              />
-              <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
-                I agree to the{" "}
-                <Link href="#" className="text-[#4F7A56] hover:text-[#6A9572]">
-                  Terms & Conditions
-                </Link>
-              </label>
-            </div>
-
             <button
               type="submit"
+              formAction={signup}
               className="w-full bg-[#4F7A56] text-white py-2 px-4 rounded-md hover:bg-[#6A9572] focus:outline-none"
             >
               Signup
