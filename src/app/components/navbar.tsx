@@ -1,11 +1,37 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { ChevronDown, Heart, Search, ShoppingBag } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ChevronDown, Heart, Search, ShoppingBag, User, LogOut } from 'lucide-react'
+import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const [isShopOpen, setIsShopOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const router = useRouter()
+  const supabase = createClient()
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+
+    getUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/login')
+  }
 
   return (
     <header className="border-b">
@@ -72,12 +98,51 @@ export default function Navbar() {
             <ShoppingBag className="h-5 w-5" />
             <span className="sr-only">Shopping Cart</span>
           </button>
-          <Link
-            href="/login"
-            className="rounded-md bg-[#4F7A56] px-4 py-2 text-sm font-medium text-white hover:bg-[#6A9572]"
-          >
-            Login
-          </Link>
+          
+          {user ? (
+            <div className="relative">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                onBlur={() => setTimeout(() => setIsProfileOpen(false), 200)}
+                className="flex items-center gap-2 rounded-full bg-[#4F7A56] p-2 text-white hover:bg-[#6A9572]"
+              >
+                <User className="h-5 w-5" />
+              </button>
+              {isProfileOpen && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border bg-white py-2 shadow-lg">
+                  <div className="px-4 py-2 text-sm font-medium border-b">
+                    {user.email}
+                  </div>
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-sm hover:text-[#6A9572]"
+                  >
+                    Profile Settings
+                  </Link>
+                  <Link
+                    href="/orders"
+                    className="block px-4 py-2 text-sm hover:text-[#6A9572]"
+                  >
+                    My Orders
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-md bg-[#4F7A56] px-4 py-2 text-sm font-medium text-white hover:bg-[#6A9572]"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </nav>
     </header>
