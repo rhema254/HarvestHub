@@ -1,7 +1,7 @@
 from flask import request 
 from flask_restx import Resource
-from app import api 
-from models import db, Listing
+from exts import api
+from models import Listing
 from datetime import datetime, timezone
 from serializers import listing_serializer
 

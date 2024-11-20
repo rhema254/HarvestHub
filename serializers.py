@@ -1,4 +1,5 @@
-from app import api, fields
+from exts import api
+from flask_restx import fields
 
 
 listing_serializer = api.model('Listing', {
@@ -13,6 +14,7 @@ listing_serializer = api.model('Listing', {
     'image_url': fields.String(required=False, description='URL to the image of the item'),
     'created_at': fields.DateTime(description='The date and time when the listing was created'),
     'updated_at': fields.DateTime(description='The date and time when the listing was last updated'),
-    'user_id': fields.Integer(required=True, description='The ID of the user who created the listing')
+    'user_id': fields.Integer(required=True, description='The ID of the user who created the listing'),
+    'verified': fields.Boolean(default=False)
 })
 

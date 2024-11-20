@@ -1,5 +1,6 @@
-from exts import db
-import datetime, enum
+from db_connect import db
+import datetime
+from enum import Enum
 
 class User(db.Model):
     """ The data attributes for each user record """
@@ -14,7 +15,7 @@ class User(db.Model):
     city = db.Column(db.String(100))
     payment_mode = db.Column(db.String(50))
     card_id = db.Column(db.String(100))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
 
     def __repr__(self):
         return f"<User {self.f_name} {self.l_name} ({self.email})>"
@@ -45,7 +46,7 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    sent_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    sent_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     status = db.Column(db.String(10), nullable=False)
     is_deleted = db.Column(db.Boolean, default=False)
 
@@ -76,7 +77,7 @@ class Message(db.Model):
         self.save()
 
 
-class Approval_Status(db.Enum):
+class ApprovalStatus(Enum):
        Pending =  "Pending"
        Approved = "Approved"
        Rejected = "Rejected"
@@ -95,9 +96,9 @@ class Listing(db.Model):
     model = db.Column(db.String(100), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     image_url = db.Column(db.String(255), nullable=True)  # URL to the image of the tractor
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    verified = db.Column(db)
+    created_at = db.Column(db.DateTime, default=db.func.now())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.now())
+    verified = db.Column(db.String(9),  default=ApprovalStatus.Pending)
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
     user = db.relationship('User', backref=db.backref('listings', lazy=True))
