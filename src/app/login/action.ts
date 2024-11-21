@@ -2,7 +2,6 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
 
 export async function login(formData: FormData) {
@@ -25,6 +24,7 @@ export async function login(formData: FormData) {
   redirect('/')
 }
 
+
 export async function signup(formData: FormData) {
   const supabase = await createClient()
 
@@ -43,4 +43,19 @@ export async function signup(formData: FormData) {
 
   revalidatePath('/', 'layout')
   redirect('/')
+}
+export async function loginWithGoogle(redirectTo: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo, // Use the redirect URL passed as a parameter
+    },
+  });
+
+  if (error) {
+    console.error('Error during Google sign-in:', error);
+    redirect('/error');
+  }
 }

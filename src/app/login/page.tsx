@@ -1,8 +1,14 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
-import { login } from "./action";
+import { login, loginWithGoogle } from "./action";
 
 export default function Component() {
+  const handleGoogleLogin = async () => {
+    const redirectTo = `${window.location.origin}/auth/callback`;
+    await loginWithGoogle(redirectTo);
+  };
+
   return (
     <div className="min-h-screen w-full flex font-[family-name:var(--font-geist-sans)]">
       {/* Left Section - Image */}
@@ -73,10 +79,10 @@ export default function Component() {
                 <span className="ml-2 text-sm text-gray-600">Remember Me</span>
               </label>
               <Link
-                href="#"
+                href="/register"
                 className="text-sm text-gray-600 hover:text-[#6A9572]"
               >
-                Forgot Password?
+                Don't have an account?
               </Link>
             </div>
 
@@ -97,6 +103,7 @@ export default function Component() {
             </div>
 
             <button
+              onClick={handleGoogleLogin}
               type="button"
               className="mt-4 w-full bg-white text-gray-700 py-2 px-4 rounded-md border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4F7A56] flex items-center justify-center"
             >
