@@ -2,12 +2,12 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { ChevronDown, Heart, Search, ShoppingBag, User, LogOut } from 'lucide-react'
+import {  Heart, Search, ShoppingBag, User, LogOut } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
-  const [isShopOpen, setIsShopOpen] = useState(false)
+  
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [user, setUser] = useState<any>(null)
   const router = useRouter()
@@ -44,43 +44,13 @@ export default function Navbar() {
             Home
           </Link>
           <div className="relative">
-            <button
-              className="flex items-center gap-1 text-sm hover:text-[#6A9572]"
-              onClick={() => setIsShopOpen(!isShopOpen)}
-              onBlur={() => setTimeout(() => setIsShopOpen(false), 200)}
-            >
+            <Link
+            href="/shop"
+              className="flex items-center gap-1 text-sm hover:text-[#6A9572]">
               Shop
-              <ChevronDown className="h-4 w-4" />
-            </button>
-            {isShopOpen && (
-              <div className="absolute left-0 top-full z-50 mt-2 w-48 rounded-lg border bg-white py-2 shadow-lg">
-                <Link
-                  href="/shop/category1"
-                  className="block px-4 py-2 text-sm hover:text-[#6A9572]"
-                >
-                  Category 1
-                </Link>
-                <Link
-                  href="/shop/category2"
-                  className="block px-4 py-2 text-sm hover:text-[#6A9572]"
-                >
-                  Category 2
-                </Link>
-                <Link
-                  href="/shop/category3"
-                  className="block px-4 py-2 text-sm hover:text-[#6A9572]"
-                >
-                  Category 3
-                </Link>
-              </div>
-            )}
+            </Link>
+          
           </div>
-          <Link href="/our-story" className="text-sm hover:text-[#6A9572]">
-            Our Story
-          </Link>
-          <Link href="/blog" className="text-sm hover:text-[#6A9572]">
-            Blog
-          </Link>
           <Link href="/contact" className="text-sm hover:text-[#6A9572]">
             Contact Us
           </Link>
@@ -94,11 +64,6 @@ export default function Navbar() {
             <Heart className="h-5 w-5" />
             <span className="sr-only">Favorites</span>
           </button>
-          <button className="hover:text-[#6A9572]">
-            <ShoppingBag className="h-5 w-5" />
-            <span className="sr-only">Shopping Cart</span>
-          </button>
-          
           {user ? (
             <div className="relative">
               <button
