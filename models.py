@@ -1,4 +1,4 @@
-from db_connect import db
+from exts import db
 import datetime
 from enum import Enum
 
@@ -13,9 +13,10 @@ class User(db.Model):
     phone_number = db.Column(db.String(20), unique=True)
     country = db.Column(db.String(100))
     city = db.Column(db.String(100))
-    payment_mode = db.Column(db.String(50))
-    card_id = db.Column(db.String(100))
     created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
+   
+   
+    sellerProfile = db.relationship('Profile', back_populates='user', uselist=False)
 
     def __repr__(self):
         return f"<User {self.f_name} {self.l_name} ({self.email})>"
@@ -77,12 +78,11 @@ class Message(db.Model):
         self.save()
 
 
+
 class ApprovalStatus(Enum):
        Pending =  "Pending"
        Approved = "Approved"
        Rejected = "Rejected"
-
-
 
 class Listing(db.Model):
     __tablename__ = 'listings'
@@ -99,8 +99,8 @@ class Listing(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
     verified = db.Column(db.String(9),  default=ApprovalStatus.Pending)
-    
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
+    
     user = db.relationship('User', backref=db.backref('listings', lazy=True))
 
     def __repr__(self):
@@ -110,6 +110,80 @@ class Listing(db.Model):
         db.session.add(self)
         db.session.commit()
     
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        self.save() 
+
+
+
+class BuyerProfile(db.Model):
+    __tablename__ = 'buyerprofiles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    address = db.Column(db.Text)
+    postal_code = db.Column(db.String(20))
+    preferred_currency = db.Column(db.String(10))
+    purchase_history = db.Column(db.JSON, default='[]')  # Stores purchase history in JSON format
+    wishlist = db.Column(db.JSON, default='[]')  # Stores wishlist in JSON format
+    profile_picture = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
+    updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
+    
+    user = db.relationship('User', backref=db.backref('buyerprofiles', lazy=True))
+
+    def __repr__(self):
+        return f" Buyer {self.id} from {self.user.country} "
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        self.save() 
+
+
+class SellerProfile(db.Model):
+    __tablename__ = 'sellerprofiles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    is_company = db.Column(db.Boolean, default=False)  # Indicates if the seller is a company
+    company_name = db.Column(db.String(255))  # Nullable for individual sellers
+    company_registration_no = db.Column(db.String(50))  # Nullable for individual sellers
+    tax_id = db.Column(db.String(50))  # Nullable for individual sellers
+    contact_person_name = db.Column(db.String(100))  # Nullable for individual sellers
+    store_name = db.Column(db.String(255), nullable=False)  # Store name
+    store_description = db.Column(db.Text)
+    business_address = db.Column(db.Text)
+    postal_code = db.Column(db.String(20))
+    product_categories = db.Column(db.JSON, default='[]')  # Categories offered by the seller
+    profile_picture = db.Column(db.String(255))
+    average_rating = db.Column(db.Float, default=0.0)  # Average customer rating
+    verification_status = db.Column(db.String(20), default='Pending')  # Verification status (e.g., Pending, Verified)
+    created_at = db.Column(db.DateTime, default=db.func.now())
+    updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now()) 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
+
+    user = db.relationship('User', backref=db.backref('sellerprofiles', lazy=True))
+
+    def __repr__(self):
+        return f"<Seller {self.id} from {self.user.country} {self.company_name}"
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
     def delete(self):
         db.session.delete(self)
         db.session.commit()

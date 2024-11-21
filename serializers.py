@@ -1,7 +1,6 @@
 from exts import api
 from flask_restx import fields
 
-
 listing_serializer = api.model('Listing', {
     'id': fields.Integer(readonly=True, description='The unique identifier of a listing'),
     'title': fields.String(required=True, description='The title of the listing'),
@@ -18,3 +17,37 @@ listing_serializer = api.model('Listing', {
     'verified': fields.Boolean(default=False)
 })
 
+
+buyer_profile_serializer = api.model('BuyerProfile', {
+    'id': fields.Integer(required=True, description='Unique ID of the buyer profile'),
+    'user_id': fields.Integer(required=True, description='ID of the user'),
+    'address': fields.String(description='Address of the buyer'),
+    'postal_code': fields.String(description='Postal code of the buyer'),
+    'preferred_currency': fields.String(description='Preferred currency of the buyer'),
+    'purchase_history': fields.Raw(description='Purchase history in JSON format'),
+    'wishlist': fields.Raw(description='Wishlist in JSON format'),
+    'profile_picture': fields.String(description='URL of the profile picture'),
+    'created_at': fields.DateTime(description='Timestamp when the profile was created'),
+    'updated_at': fields.DateTime(description='Timestamp when the profile was last updated'),
+})
+
+
+seller_profile_serializer = api.model('SellerProfile', {
+    'id': fields.Integer(required=True, description='Unique ID of the seller profile'),
+    'user_id': fields.Integer(required=True, description='ID of the user'),
+    'is_company': fields.Boolean(description='Indicates if the seller is a company'),
+    'company_name': fields.String(description='Name of the company (if applicable)'),
+    'company_registration_no': fields.String(description='Company registration number (if applicable)'),
+    'tax_id': fields.String(description='Tax ID of the seller'),
+    'contact_person_name': fields.String(description='Contact person for the company (if applicable)'),
+    'store_name': fields.String(required=True, description='Name of the store'),
+    'store_description': fields.String(description='Description of the store'),
+    'business_address': fields.String(description='Business address of the seller'),
+    'postal_code': fields.String(description='Postal code of the seller'),
+    'product_categories': fields.Raw(description='Categories offered by the seller in JSON format'),
+    'profile_picture': fields.String(description='URL of the profile picture'),
+    'average_rating': fields.Float(description='Average rating of the seller'),
+    'verification_status': fields.String(description='Verification status of the seller'),
+    'created_at': fields.DateTime(description='Timestamp when the profile was created'),
+    'updated_at': fields.DateTime(description='Timestamp when the profile was last updated'),
+})

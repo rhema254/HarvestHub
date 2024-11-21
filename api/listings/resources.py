@@ -1,5 +1,5 @@
 from flask import request 
-from flask_restx import Resource
+from flask_restx import Resource, Namespace
 from exts import api
 from models import Listing
 from datetime import datetime, timezone
@@ -7,7 +7,9 @@ from serializers import listing_serializer
 
 
 # API Resource for creating a listing
+listings_ns = Namespace('listings', description='Listings related operations')
 
+@listings_ns.route('/')
 @api.route('/')
 class listingListResource(Resource):
 
