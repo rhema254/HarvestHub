@@ -18,7 +18,7 @@ listing_serializer = api.model('Listing', {
 })
 
 
-buyer_profile_serializer = api.model('BuyerProfile', {
+buyerprofiles_serializer = api.model('BuyerProfile', {
     'id': fields.Integer(required=True, description='Unique ID of the buyer profile'),
     'user_id': fields.Integer(required=True, description='ID of the user'),
     'address': fields.String(description='Address of the buyer'),
@@ -32,7 +32,7 @@ buyer_profile_serializer = api.model('BuyerProfile', {
 })
 
 
-seller_profile_serializer = api.model('SellerProfile', {
+sellerprofiles_serializer = api.model('SellerProfile', {
     'id': fields.Integer(required=True, description='Unique ID of the seller profile'),
     'user_id': fields.Integer(required=True, description='ID of the user'),
     'is_company': fields.Boolean(description='Indicates if the seller is a company'),

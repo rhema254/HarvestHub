@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from api.listings.resources import listings_ns
+from api.profiles.buyerprofiles import buyerprofiles_ns
+from api.profiles.sellerprofiles import sellerprofiles_ns
 from exts import api, db
 # from db_connect import initialize_db, db
 from config import DevConfig
@@ -15,6 +17,8 @@ CORS(app)
 
 #Namespaces
 api.add_namespace(listings_ns, path='/api/listings')
+api.add_namespace(buyerprofiles_ns, path='/api/profiles/buyerprofile')
+api.add_namespace(sellerprofiles_ns, path='/api/profiles/sellerprofile')
 
 
 if __name__ == '__main__':
