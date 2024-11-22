@@ -1,7 +1,7 @@
-from exts import api
+from ..exts import api
 from flask_restx import Resource, Namespace
-from models import Listing, User, Wishlist
-from serializers import wishlist_serializer
+from ..models import Listing, User, Wishlist
+from ..serializers import wishlist_serializer
 from flask import request 
 
 

@@ -1,6 +1,6 @@
 from flask_restx import Resource, Namespace
-from models import SellerProfile
-from serializers import sellerprofiles_serializer
+from ..models import SellerProfile
+from ..serializers import sellerprofiles_serializer
 from flask import request
 
 

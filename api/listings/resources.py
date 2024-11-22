@@ -1,9 +1,9 @@
 from flask import request 
 from flask_restx import Resource, Namespace
-from exts import api
-from models import Listing
+from ..exts import api
+from ..models import Listing
 from datetime import datetime, timezone
-from serializers import listing_serializer
+from ..serializers import listing_serializer
 
 
 # API Resource for creating a listing

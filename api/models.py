@@ -1,4 +1,4 @@
-from exts import db
+from .exts import db
 import datetime
 from enum import Enum
 
@@ -16,7 +16,10 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
    
    
-    sellerProfile = db.relationship('SellerProfile', back_populates='user', uselist=False)
+    buyerprofile = db.relationship('BuyerProfile', back_populates='user')
+    sellerprofile = db.relationship('SellerProfile', back_populates='user', uselist=False)
+    listing = db.relationship('Listing', back_populates='user')
+    wishlist = db.relationship('Wishlist', back_populates='user')
 
     def __repr__(self):
         return f"<User {self.f_name} {self.l_name} ({self.email})>"
@@ -101,7 +104,7 @@ class Listing(db.Model):
     verified = db.Column(db.String(9),  default=ApprovalStatus.Pending)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
     
-    user = db.relationship('User', backref=db.backref('Listing', lazy=True))
+    user = db.relationship('User', back_populates='listing')
 
     def __repr__(self):
         return f"<Listing {self.title} ({self.brand} {self.model})>"
@@ -133,7 +136,7 @@ class BuyerProfile(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
     
-    user = db.relationship('User', backref=db.backref('BuyerProfile', lazy=True))
+    user = db.relationship('User', back_populates='buyerprofile')
 
     def __repr__(self):
         return f" Buyer {self.id} from {self.user.country} "
@@ -173,7 +176,7 @@ class SellerProfile(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now()) 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
 
-    user = db.relationship('User', back_populates='SellerProfile')
+    user = db.relationship('User', back_populates='sellerprofile')
 
     def __repr__(self):
         return f"<Seller {self.id} from {self.user.country} {self.company_name}"
@@ -203,8 +206,8 @@ class Wishlist(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.now())
 
     # Relationships
-    user = db.relationship('User', back_populates='Wishlist')
-    listing = db.relationship('Listing', back_populates='User')
+    user = db.relationship('User', back_populates='wishlist')
+    
 
     # Enforce uniqueness at the database level
     __table_args__ = (

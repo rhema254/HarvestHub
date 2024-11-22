@@ -8,17 +8,17 @@ class Config():
 class DevConfig(Config):
     FLASK_ENV = config('FLASK_ENV')
     
-    DB_HOST = config('DB_HOST')
-    DB_USERNAME = config('DB_USERNAME')
-    DB_PASSWORD = config('DB_PASSWORD')
-    DB_NAME = config('DB_NAME')
+    # DB_HOST = config('DB_HOST')
+    # DB_USERNAME = config('DB_USERNAME')
+    # DB_PASSWORD = config('DB_PASSWORD')
+    # DB_NAME = config('DB_NAME')
     DATABASE_URI = config('DATABASE_URI')
-    DB_PORT = config('DB_PORT')
+    # DB_PORT = config('DB_PORT')
     
     
-    AWS_ACCESS_KEY_ID=config('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-    AWS_DEFAULT_REGION=config('AWS_DEFAULT_REGION')
+    # AWS_ACCESS_KEY_ID=config('AWS_ACCESS_KEY_ID')
+    # AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    # AWS_DEFAULT_REGION=config('AWS_DEFAULT_REGION')
 
 
 

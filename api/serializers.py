@@ -1,4 +1,4 @@
-from exts import api
+from .exts import api
 from flask_restx import fields
 
 listing_serializer = api.model(
