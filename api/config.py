@@ -12,7 +12,7 @@ class DevConfig(Config):
     DB_USERNAME = config('DB_USERNAME')
     DB_PASSWORD = config('DB_PASSWORD')
     DB_NAME = config('DB_NAME')
-    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI')
+    DATABASE_URI = config('DATABASE_URI')
     DB_PORT = config('DB_PORT')
     
     

@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 app.config.from_object(DevConfig)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+pg8000://postgres.zdcpupnnntjzgefzwoeh:qwertyuasdfgzxcv12@aws-0-eu-central-1.pooler.supabase.com:6543/postgres"
+app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URI')
 api.init_app(app, version='1.0', title='HarvestHub API Docs', description='A brief description of our APIs.', contact='Rhema')
 CORS(app)
 db.init_app(app)
