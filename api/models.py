@@ -128,8 +128,6 @@ class BuyerProfile(db.Model):
     address = db.Column(db.Text)
     postal_code = db.Column(db.String(20))
     preferred_currency = db.Column(db.String(10))
-    purchase_history = db.Column(db.JSON, default='[]')  # Stores purchase history in JSON format
-    wishlist = db.Column(db.JSON, default='[]')  # Stores wishlist in JSON format
     profile_picture = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, default=db.func.now(), nullable=False)
     updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
@@ -175,7 +173,7 @@ class SellerProfile(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now()) 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Link to user
 
-    user = db.relationship('User', back_populates='sellerProfile')
+    user = db.relationship('User', back_populates='SellerProfile')
 
     def __repr__(self):
         return f"<Seller {self.id} from {self.user.country} {self.company_name}"
@@ -192,3 +190,34 @@ class SellerProfile(db.Model):
         for key, value in kwargs.items():
             setattr(self, key, value)
         self.save() 
+
+
+
+
+class Wishlist(db.Model):
+    __tablename__ = 'wishlists'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Reference to user
+    listing_id = db.Column(db.Integer, db.ForeignKey('listings.id'), nullable=False)  # Reference to listing
+    created_at = db.Column(db.DateTime, default=db.func.now())
+
+    # Relationships
+    user = db.relationship('User', back_populates='Wishlist')
+    listing = db.relationship('Listing', back_populates='User')
+
+    # Enforce uniqueness at the database level
+    __table_args__ = (
+        db.UniqueConstraint('user_id', 'listing_id', name='unique_user_listing'),
+    )
+
+    def __repr__(self):
+        return f"<Wishlist User: {self.user_id}, Listing: {self.listing_id}>"
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()

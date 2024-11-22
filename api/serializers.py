@@ -1,7 +1,9 @@
 from exts import api
 from flask_restx import fields
 
-listing_serializer = api.model('Listing', {
+listing_serializer = api.model(
+    'Listing', 
+{
     'id': fields.Integer(readonly=True, description='The unique identifier of a listing'),
     'title': fields.String(required=True, description='The title of the listing'),
     'description': fields.String(required=True, description='A description of the listing'),
@@ -32,7 +34,9 @@ buyerprofiles_serializer = api.model('BuyerProfile', {
 })
 
 
-sellerprofiles_serializer = api.model('SellerProfile', {
+sellerprofiles_serializer = api.model(
+    'SellerProfile', 
+{                                     
     'id': fields.Integer(required=True, description='Unique ID of the seller profile'),
     'user_id': fields.Integer(required=True, description='ID of the user'),
     'is_company': fields.Boolean(description='Indicates if the seller is a company'),
@@ -50,4 +54,14 @@ sellerprofiles_serializer = api.model('SellerProfile', {
     'verification_status': fields.String(description='Verification status of the seller'),
     'created_at': fields.DateTime(description='Timestamp when the profile was created'),
     'updated_at': fields.DateTime(description='Timestamp when the profile was last updated'),
+})
+
+
+wishlist_serializer = api.model(
+    'Wishlist',
+{
+    'id': fields.Integer(readonly=True, description='The wishlist ID'),
+    'user_id': fields.Integer(required=True, description='The user who created the wishlist'),
+    'listing_id': fields.Integer(required=True, description='The listing added to the wishlist'),
+    'created_at': fields.DateTime(description='The date the wishlist was created')
 })
