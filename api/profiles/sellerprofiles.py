@@ -13,7 +13,7 @@ class SellerProfilesResources(Resource):
     def get(self):
         """ Get all sellers """
 
-        sellers =  SellerProfile.query.all()
+        sellers =  SellerProfile.query.filter_by()
         return sellers
 
     @sellerprofiles_ns.expect(sellerprofiles_serializer)

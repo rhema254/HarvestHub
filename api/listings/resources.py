@@ -10,14 +10,13 @@ from serializers import listing_serializer
 listings_ns = Namespace('listings', description='Listings related operations')
 
 @listings_ns.route('/')
-@api.route('/')
 class listingListResource(Resource):
 
     @api.marshal_list_with(listing_serializer)
     def get(self):
         """ Get all active listings """
-        listings = Listing.query.filter_by(is_deleted=False).all()
-        return listings
+        listings = Listing.query.all()
+        return  listings, 200
 
     def post(self):
             """Create a new listing."""
@@ -54,7 +53,7 @@ class ListingResource(Resource):
 
         return listing
 
-
+    @api.marshal_with(listing_serializer)
     @api.marshal_with(listing_serializer)
     def put(self, id):
         """Update a listing."""
