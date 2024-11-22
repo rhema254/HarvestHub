@@ -12,12 +12,21 @@ listings_ns = Namespace('listings', description='Listings related operations')
 @listings_ns.route('/')
 class listingListResource(Resource):
 
-    @api.marshal_list_with(listing_serializer)
+    @listings_ns.doc(
+        description= "Get all Listings for a particular client"
+    )
+    @listings_ns.marshal_list_with(listing_serializer)
     def get(self):
         """ Get all active listings """
         listings = Listing.query.all()
         return  listings, 200
 
+    @listings_ns.doc(
+        description= "Get all Listings for a particular client"
+
+    )
+    @listings_ns.expect(listing_serializer)
+    @listings_ns.marshal_with(listing_serializer)
     def post(self):
             """Create a new listing."""
             data = request.get_json()
@@ -41,20 +50,32 @@ class listingListResource(Resource):
             return new_listing, 201  # Return the created listing with 201 status
 
 
-# API Resource for fetching a single listing
-@api.route('/<int:id>')
+@listings_ns.route('/listings/<int:id>')
 class ListingResource(Resource):
 
-
-    @api.marshal_with(listing_serializer)
+    @listings_ns.doc(
+        description= "Get a single item on the listing",
+        params={ 
+            "id":"The ID of the listing"
+             
+        }
+    )
+    @listings_ns.marshal_with(listing_serializer)
     def get(self, id):
         """ Get a single listing by ID """
         listing = Listing.query.get_or_404(id)
 
         return listing
 
-    @api.marshal_with(listing_serializer)
-    @api.marshal_with(listing_serializer)
+    @listings_ns.doc(
+        description= "Update details of a single item on the listing",
+        params={ 
+            "id":"The ID of the listing"
+             
+        }
+    )
+    @listings_ns.marshal_with(listing_serializer)
+    @listings_ns.marshal_with(listing_serializer)
     def put(self, id):
         """Update a listing."""
         # Retrieve the listing or return 404 if not found
@@ -70,11 +91,17 @@ class ListingResource(Resource):
 
         return listing_to_update  # Return the updated listing
 
+    @listings_ns.doc(
+        description= "Delete a single item on the listing",
+        params={ 
+            "id":"The ID of the listing"
+             
+        }
+    )
     def delete(self, id):
-        """ Soft delete a listing (mark as deleted) """
+        """ Delete a listing  """
         listing_to_delete = Listing.query.get_or_404(id)
 
-        listing_to_delete.is_deleted = True
         listing_to_delete.delete()
 
         return {"message": "Listing successfully deleted"}, 200

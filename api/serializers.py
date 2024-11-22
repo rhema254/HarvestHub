@@ -26,11 +26,9 @@ buyerprofiles_serializer = api.model('BuyerProfile', {
     'address': fields.String(description='Address of the buyer'),
     'postal_code': fields.String(description='Postal code of the buyer'),
     'preferred_currency': fields.String(description='Preferred currency of the buyer'),
-    'purchase_history': fields.Raw(description='Purchase history in JSON format'),
-    'wishlist': fields.Raw(description='Wishlist in JSON format'),
     'profile_picture': fields.String(description='URL of the profile picture'),
     'created_at': fields.DateTime(description='Timestamp when the profile was created'),
-    'updated_at': fields.DateTime(description='Timestamp when the profile was last updated'),
+    'updated_at': fields.DateTime(description='Timestamp when the profile was last updated')
 })
 
 
@@ -53,7 +51,7 @@ sellerprofiles_serializer = api.model(
     'average_rating': fields.Float(description='Average rating of the seller'),
     'verification_status': fields.String(description='Verification status of the seller'),
     'created_at': fields.DateTime(description='Timestamp when the profile was created'),
-    'updated_at': fields.DateTime(description='Timestamp when the profile was last updated'),
+    'updated_at': fields.DateTime(description='Timestamp when the profile was last updated')
 })
 
 
