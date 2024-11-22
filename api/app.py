@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from flask_cors import CORS
-from api.listings.resources import listings_ns
+from listings.resources import listings_ns
 from profiles.buyerprofiles import buyerprofiles_ns
 from profiles.sellerprofiles import sellerprofiles_ns
 from profiles.wishlist import wishlist_ns
